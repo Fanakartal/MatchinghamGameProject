@@ -12,6 +12,8 @@
 
 /[Aa]ssets/[Ss]tandard Assets/
 /[Aa]ssets/[Ss]ampleScenes/
+/[Aa]ssets/Standard Assets.meta
+/[Aa]ssets/SampleScenes.meta
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
