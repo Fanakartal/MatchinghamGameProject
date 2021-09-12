@@ -12,8 +12,8 @@ public class LookWithMouse : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-#if UNITY_EDITOR
-        Cursor.lockState = CursorLockMode.Locked;
+#if UNITY_STANDALONE_WIN
+        //Cursor.lockState = CursorLockMode.Locked;
 #endif
     }
 

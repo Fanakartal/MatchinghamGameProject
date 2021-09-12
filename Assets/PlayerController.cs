@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private GameObject _manager;
+    
     [SerializeField]
     private CharacterController charController;
+
+    public GameObject[] weapons;
+    public GameObject currentWeapon;
+    private int weaponIndex = 0;
     
     [SerializeField] private float xMov;
     [SerializeField] private float zMov;
@@ -22,12 +28,25 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _manager = GameObject.FindWithTag("GameManager");
+        
         charController = GetComponent<CharacterController>();
+
+        if (!currentWeapon.activeInHierarchy)
+        {
+            currentWeapon.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _manager.GetComponent<UIManagerScript>().ChangeWeapon();
+            currentWeapon = weapons[weaponIndex++ % weapons.Length];
+        }
+        
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && gravitationalVelocity.y < 0)
