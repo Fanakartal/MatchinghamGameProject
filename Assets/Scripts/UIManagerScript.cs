@@ -6,11 +6,15 @@ using UnityEngine.UI;
 public class UIManagerScript : MonoBehaviour
 {
     public GameObject[] weapons;
+    public GameObject FPSCamera;
+    
     private int i = 0;
     public Slider shotgunSlider;
     public Text shotgunSliderText;
 
     [SerializeField] private bool[] specialPowers;
+
+    public Transform originalScale;
     
     public void ChangeWeapon()
     {
@@ -19,6 +23,7 @@ public class UIManagerScript : MonoBehaviour
             weapons[i].SetActive(false);
             i = (i + 1) % weapons.Length;
             weapons[i].SetActive(true);
+            FPSCamera.GetComponent<LookWithMouse>().weapon = weapons[i].transform;
         }
     }
 
@@ -39,11 +44,11 @@ public class UIManagerScript : MonoBehaviour
         {
             if (specialPowers[0])
             {
-                weapons[j].GetComponent<FireController>().bulletPrefab.transform.localScale *= 2.5f;
+                weapons[j].GetComponent<FireController>().bulletPrefab.transform.localScale *= 2f;
             }
             else
             {
-                weapons[j].GetComponent<FireController>().bulletPrefab.transform.localScale /= 2.5f;
+                weapons[j].GetComponent<FireController>().bulletPrefab.transform.localScale /= 2f;
             }
         }
     }
@@ -71,6 +76,15 @@ public class UIManagerScript : MonoBehaviour
                         = Color.grey;
                 }
             }
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        for (int j = 0; j < weapons.Length; j++)
+        {
+            weapons[j].GetComponent<FireController>().bulletPrefab.transform.localScale
+                = originalScale.localScale;
         }
     }
 }
