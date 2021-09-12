@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
             _manager.GetComponent<UIManagerScript>().ChangeWeapon();
             currentWeapon = weapons[weaponIndex++ % weapons.Length];
         }
-        
+
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && gravitationalVelocity.y < 0)

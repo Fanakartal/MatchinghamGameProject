@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,49 @@ public class UIManagerScript : MonoBehaviour
     [SerializeField] private bool[] specialPowers;
 
     public Transform originalScale;
-    
+
+    private void Start()
+    {
+
+        Application.targetFrameRate = 30;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            PowerUpBiggerBullet();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            PowerUpRedBullet();
+        }
+
+        if (Input.GetKeyDown(KeyCode.L) && weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount < 10)
+        {
+            weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount++;
+            shotgunSlider.GetComponent<Slider>().value =
+                weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount;
+            shotgunSliderText.text = "SHOTGUN \nBULLET COUNT: " +
+                                     weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount;
+        }
+
+        if (Input.GetKeyDown(KeyCode.K) && weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount > 3)
+        {
+            weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount--;
+            shotgunSlider.GetComponent<Slider>().value =
+                weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount;
+            shotgunSliderText.text = "SHOTGUN \nBULLET COUNT: " +
+                                     weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     public void ChangeWeapon()
     {
         if (weapons[i].activeInHierarchy)
