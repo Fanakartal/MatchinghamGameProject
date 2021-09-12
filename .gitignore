@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+/[Aa]ssets/[Ss]tandard Assets/
+/[Aa]ssets/[Ss]ampleScenes/
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
@@ -21,6 +24,9 @@
 
 # Visual Studio cache directory
 .vs/
+
+# IDEA directory
+.idea/
 
 # Gradle cache directory
 .gradle/
