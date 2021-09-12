@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class FireController : MonoBehaviour
@@ -21,12 +22,14 @@ public class FireController : MonoBehaviour
     void Start()
     {
         currentBulletCount = 0;
+        bulletPrefab.GetComponent<Renderer>().sharedMaterial.color 
+            = Color.black;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             GameObject newBullet = Instantiate(bulletPrefab, bulletPos.position, Quaternion.identity, bulletsParent.transform);
             newBullet.GetComponent<Rigidbody>().AddRelativeForce(this.transform.forward * fireProjectile);

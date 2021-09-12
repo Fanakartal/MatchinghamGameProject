@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ShotgunFireController : FireController
 {
@@ -15,33 +16,19 @@ public class ShotgunFireController : FireController
     void Start()
     {
         currentBulletCount = 0;
+        bulletPrefab.GetComponent<Renderer>().sharedMaterial.color 
+            = Color.grey;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             ShotgunFire();
         }
     }
-
-    /*public override void InitializeBarrel()
-    {
-        base.InitializeBarrel();
-        
-        GameObject bulletProp = Instantiate(bulletPrefab, bulletPos.position, Quaternion.identity, this.transform);
-        bulletProp.name = "Barrel";
-        if (!bulletProp.activeInHierarchy)
-        {
-            bulletProp.SetActive(true);
-        }
-        bulletProp.transform.localScale = new Vector3(2.0f, 2.0f, 0.2f);
-        bulletProp.GetComponent<Rigidbody>().isKinematic = true;
-        bulletProp.GetComponent<BoxCollider>().enabled = false;
-        bulletProp.transform.localScale *= 0.5f;
-    } */
-
+    
     private void ShotgunFire()
     {
         shotgunBulletArray = new GameObject[shotgunBulletCount];
@@ -82,12 +69,6 @@ public class ShotgunFireController : FireController
             Vector3 dir = Quaternion.AngleAxis(sgBulletAnglesArray[i], Vector3.up) * this.transform.forward;
             shotgunBulletArray[i].GetComponent<Rigidbody>().AddRelativeForce(dir * shotgunFireProjectile);
             
-            /*shotgunBulletArray[i].GetComponent<Rigidbody>().
-                AddRelativeForce(
-                    new Vector3(shotgunFireProjectile * Mathf.Sin(Mathf.Deg2Rad * sgBulletAnglesArray[i]), 
-                        0.0f, shotgunFireProjectile * Mathf.Cos(Mathf.Deg2Rad * sgBulletAnglesArray[i])));*/
-
-            // shotgunBulletArray[i].GetComponent<Rigidbody>().AddRelativeForce(shotgunFireProjectile);
             shotgunBulletArray[i].AddComponent<BulletDestroyer>();
             currentBulletCount++;
             bulletCountText.text = "BULLETS FIRED: " + currentBulletCount;
@@ -97,14 +78,6 @@ public class ShotgunFireController : FireController
         StopCoroutine("ResetBulletCount");
             
         StartCoroutine("ResetBulletCount");
-    }
-    
-    private Vector3 SetVectorFromAngle (float x, float y, float z) 
-    {
-        Quaternion rotation = Quaternion.Euler(x, y, z);
-        Vector3 forward = Vector3.forward * 0.5f;
-        
-        return new Vector3();
     }
 
     IEnumerator ResetBulletCount()

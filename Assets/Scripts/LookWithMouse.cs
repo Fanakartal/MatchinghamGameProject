@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LookWithMouse : MonoBehaviour
 {
+    public Camera TPCam;
+    
     public Transform player;
     public Transform weapon;
     
@@ -32,5 +34,7 @@ public class LookWithMouse : MonoBehaviour
         
         // Rotate around y-axis on x
         player.Rotate(Vector3.up * mouseX);
+        
+        //TPCam.gameObject.transform.Rotate(Vector3.up * mouseX);
     }
 }
