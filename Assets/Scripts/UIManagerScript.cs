@@ -7,13 +7,18 @@ using UnityEngine.UI;
 public class UIManagerScript : MonoBehaviour
 {
     public GameObject[] weapons;
+    public GameObject explosionPrefab;
+    public GameObject explosionParent;
     public GameObject FPSCamera;
+
+    public Texture2D origCrosshairTex;
+    public Texture2D wideCrosshairTex;
     
     private int i = 0;
     public Slider shotgunSlider;
     public Text shotgunSliderText;
 
-    [SerializeField] private bool[] specialPowers;
+    [SerializeField] public bool[] specialPowers;
 
     public Transform originalScale;
 
@@ -33,6 +38,11 @@ public class UIManagerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             PowerUpRedBullet();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            PowerUpExplodeBullet();
         }
 
         if (Input.GetKeyDown(KeyCode.L) && weapons[1].GetComponent<ShotgunFireController>().shotgunBulletCount < 10)
@@ -67,6 +77,11 @@ public class UIManagerScript : MonoBehaviour
             i = (i + 1) % weapons.Length;
             weapons[i].SetActive(true);
             FPSCamera.GetComponent<LookWithMouse>().weapon = weapons[i].transform;
+
+            if (FPSCamera.GetComponent<LookWithMouse>().crosshair == origCrosshairTex)
+                FPSCamera.GetComponent<LookWithMouse>().crosshair = wideCrosshairTex;
+            else
+                FPSCamera.GetComponent<LookWithMouse>().crosshair = origCrosshairTex;
         }
     }
 
@@ -120,6 +135,12 @@ public class UIManagerScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void PowerUpExplodeBullet()
+    {
+        if (!specialPowers[2]) specialPowers[2] = true;
+        else specialPowers[2] = false;
     }
 
     void OnApplicationQuit()

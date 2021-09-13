@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class LookWithMouse : MonoBehaviour
 {
     public Camera TPCam;
+    public Texture2D crosshair;
+    private Rect crosshairScreenPos;
     
     public Transform player;
     public Transform weapon;
@@ -15,7 +18,7 @@ public class LookWithMouse : MonoBehaviour
     void Start()
     {
 #if UNITY_STANDALONE_WIN
-        //Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.lockState = CursorLockMode.Locked;
 #endif
     }
 
@@ -36,5 +39,12 @@ public class LookWithMouse : MonoBehaviour
         player.Rotate(Vector3.up * mouseX);
         
         //TPCam.gameObject.transform.Rotate(Vector3.up * mouseX);
+        crosshairScreenPos = new Rect((Screen.width/2) + 10, (Screen.height/2),
+            crosshair.width/4, crosshair.height/4);
+    }
+
+    private void OnGUI()
+    {
+        GUI.DrawTexture(crosshairScreenPos, crosshair);
     }
 }
